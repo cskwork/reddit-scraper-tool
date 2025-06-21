@@ -1,0 +1,89 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# 가상환경 (Virtual Environment)
+.venv/
+venv/
+ENV/
+env/
+.env/
+
+# 환경 변수 파일 (Environment Variables)
+.env
+.env.local
+.env.production
+.env.staging
+
+# 데이터베이스 파일 (Database Files)
+*.db
+*.sqlite
+*.sqlite3
+reddit_scraper.db
+
+# 로그 파일 (Log Files)
+*.log
+logs/
+
+# 임시 파일 (Temporary Files)
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# IDE 설정 파일 (IDE Configuration)
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Serena 캐시 (AI Assistant Cache)
+.serena/cache/
+
+# 백업 파일 (Backup Files)
+*.bak
+*.backup
+
+# 운영체제 파일 (OS Files)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db 
