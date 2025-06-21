@@ -10,6 +10,7 @@ from reddit_client import RedditClient
 from content_analyzer import ContentAnalyzer
 from database import Database
 from terminal_ui import TerminalUI
+from config import SEARCH_CONFIG
 
 
 def main():
@@ -33,10 +34,15 @@ def main():
     parser.add_argument(
         "--subreddits", "-s", nargs="+", help="검색할 서브레딧들", default=["all"]
     )
-    parser.add_argument("--limit", "-l", type=int, help="가져올 게시물 수", default=50)
+    parser.add_argument("--limit", "-l", type=int, help=f"가져올 게시물 수 (기본: {SEARCH_CONFIG['default_limit']}, 최대: {SEARCH_CONFIG['max_limit']})", default=SEARCH_CONFIG['default_limit'])
     parser.add_argument("--interactive", "-i", action="store_true", help="대화형 모드")
 
     args = parser.parse_args()
+
+    # 게시물 수 검증
+    if args.limit < SEARCH_CONFIG['min_limit'] or args.limit > SEARCH_CONFIG['max_limit']:
+        ui.display_error(f"게시물 수는 {SEARCH_CONFIG['min_limit']}개 이상 {SEARCH_CONFIG['max_limit']}개 이하여야 합니다.")
+        return
 
     # 대화형 모드
     if args.interactive or not args.keywords:
@@ -46,7 +52,7 @@ def main():
             if choice == "1":  # 새로운 검색
                 keywords = ui.prompt_keywords()
                 subreddits = ui.prompt_subreddits()
-                limit = 50
+                limit = ui.prompt_limit()
 
                 # 검색 수행
                 search_and_analyze(ui, db, keywords, subreddits, limit)

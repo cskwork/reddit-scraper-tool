@@ -50,4 +50,10 @@ DATABASE_CONFIG = {"path": "reddit_scraper.db", "echo": False}
 UI_CONFIG = {"max_posts_display": 20, "max_title_length": 50, "theme": "default"}
 
 # 검색 설정
-SEARCH_CONFIG = {"default_limit": 50, "default_subreddits": ["all"], "max_limit": 1000}
+SEARCH_CONFIG = {
+    "default_limit": int(os.getenv("DEFAULT_POST_LIMIT", "50")), 
+    "default_subreddits": ["all"], 
+    "max_limit": int(os.getenv("MAX_POST_LIMIT", "1000")),
+    "min_limit": int(os.getenv("MIN_POST_LIMIT", "1")),
+    "limit_options": list(map(int, os.getenv("POST_LIMIT_OPTIONS", "10,25,50,100,200,500").split(",")))
+}

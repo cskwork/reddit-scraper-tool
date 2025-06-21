@@ -4,86 +4,67 @@ __pycache__/
 *$py.class
 *.so
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
 
-# 가상환경 (Virtual Environment)
+# 가상환경
 .venv/
 venv/
-ENV/
 env/
-.env/
+ENV/
 
-# 환경 변수 파일 (Environment Variables)
+# 환경 설정
 .env
 .env.local
 .env.production
 .env.staging
 
-# 데이터베이스 파일 (Database Files)
+# 데이터베이스
 *.db
 *.sqlite
 *.sqlite3
 reddit_scraper.db
 
-# 로그 파일 (Log Files)
+# 로그
 *.log
 logs/
 
-# 임시 파일 (Temporary Files)
-*.tmp
-*.temp
-.DS_Store
-Thumbs.db
-
-# IDE 설정 파일 (IDE Configuration)
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pytest
-.pytest_cache/
-.coverage
-htmlcov/
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Serena 캐시 (AI Assistant Cache)
-.serena/cache/
-
-# 백업 파일 (Backup Files)
-*.bak
-*.backup
-
-# 운영체제 파일 (OS Files)
+# OS
 .DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
+Thumbs.db
 ehthumbs.db
-Thumbs.db 
+desktop.ini
+
+# 테스트
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Jupyter
+.ipynb_checkpoints
+
+# 임시 파일
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# 배포
+dist/
+build/
+*.egg-info/
+
+# Serena AI Assistant
+.serena/cache/ 

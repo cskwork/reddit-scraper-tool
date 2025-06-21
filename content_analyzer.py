@@ -131,7 +131,32 @@ class ContentAnalyzer:
 
             if response.status_code == 200:
                 result = response.json()
-                analysis = json.loads(result.get("response", "{}"))
+                raw_response = result.get("response", "{}")
+                
+                # JSON 파싱 시도
+                try:
+                    # 응답에서 실제 JSON 부분만 추출
+                    start_idx = raw_response.find("{")
+                    end_idx = raw_response.rfind("}") + 1
+                    
+                    if start_idx != -1 and end_idx > start_idx:
+                        json_str = raw_response[start_idx:end_idx]
+                        analysis = json.loads(json_str)
+                    else:
+                        # JSON 형태가 아니면 기본값 사용
+                        analysis = {
+                            "relevance_score": 0.5,
+                            "quality_score": 0.5,
+                            "reason": "JSON 파싱 실패"
+                        }
+                        
+                except json.JSONDecodeError as json_err:
+                    logger.warning("JSON 파싱 실패, 원본 응답: %s", raw_response[:200])
+                    analysis = {
+                        "relevance_score": 0.5,
+                        "quality_score": 0.5,
+                        "reason": "JSON 파싱 오류"
+                    }
 
                 # 종합 점수 계산
                 relevance = analysis.get("relevance_score", 0.5)
@@ -199,13 +224,30 @@ class ContentAnalyzer:
         try:
             response = requests.post(
                 f"{self.ollama_url}/api/generate",
-                json={"model": self.model, "prompt": prompt, "stream": False},
+                json={
+                    "model": self.model, 
+                    "prompt": prompt, 
+                    "stream": False,
+                    "format": "json"
+                },
                 timeout=10,
             )
 
             if response.status_code == 200:
                 result = response.json()
-                return json.loads(result.get("response", "{}"))
+                raw_response = result.get("response", "{}")
+                
+                try:
+                    # JSON 부분 추출 및 파싱
+                    start_idx = raw_response.find("{")
+                    end_idx = raw_response.rfind("}") + 1
+                    
+                    if start_idx != -1 and end_idx > start_idx:
+                        json_str = raw_response[start_idx:end_idx]
+                        return json.loads(json_str)
+                    
+                except json.JSONDecodeError:
+                    logger.warning("인사이트 JSON 파싱 실패")
 
         except Exception as e:
             logger.error("인사이트 추출 실패: %s", e)

@@ -6,10 +6,11 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn
-from rich.prompt import Prompt, Confirm
+from rich.prompt import Prompt, Confirm, IntPrompt
 from rich.text import Text
 from rich import box
 from typing import List, Dict, Any
+from config import SEARCH_CONFIG
 
 
 class TerminalUI:
@@ -163,6 +164,25 @@ class TerminalUI:
             default="all",
         )
         return [s.strip() for s in subreddits_str.split(",") if s.strip()]
+
+    def prompt_limit(self) -> int:
+        """게시물 수 입력 받기"""
+        self.console.print(f"\n[cyan]게시물 수 설정[/cyan]")
+        self.console.print(f"기본값: {SEARCH_CONFIG['default_limit']}")
+        self.console.print(f"범위: {SEARCH_CONFIG['min_limit']} ~ {SEARCH_CONFIG['max_limit']}")
+        self.console.print(f"추천 옵션: {', '.join(map(str, SEARCH_CONFIG['limit_options']))}")
+        
+        limit = IntPrompt.ask(
+            "[cyan]가져올 게시물 수[/cyan]",
+            default=SEARCH_CONFIG['default_limit'],
+            show_default=True
+        )
+        
+        if limit < SEARCH_CONFIG['min_limit'] or limit > SEARCH_CONFIG['max_limit']:
+            self.display_error(f"게시물 수는 {SEARCH_CONFIG['min_limit']}개 이상 {SEARCH_CONFIG['max_limit']}개 이하여야 합니다.")
+            return self.prompt_limit()
+        
+        return limit
 
     def confirm_action(self, message: str) -> bool:
         """확인 프롬프트"""
